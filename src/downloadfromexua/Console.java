@@ -57,6 +57,12 @@ public class Console {
 
     public void working() {
         while (true) {
+            switch (modeWorking) {
+                case "GET_URL_4_DOWNLOAD": {
+                    System.out.println("Enter URL playlist for start download");
+                    System.out.println("Press Enter for exit");
+                }
+            }
 
             inputText = scanner.nextLine().trim();
 
