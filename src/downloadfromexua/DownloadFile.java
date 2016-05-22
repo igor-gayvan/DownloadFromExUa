@@ -14,8 +14,11 @@ import static java.lang.Math.round;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -87,7 +90,18 @@ public class DownloadFile {
         URLConnection conn = fileURL.openConnection();
 
         String mime = conn.getContentType();
-        this.fileName = URLDecoder.decode(new File(conn.getURL().getFile()).getName(), "utf-8");
+        
+        String urlFilename = new String(conn.getURL().getFile().getBytes("ISO-8859-1"), "utf-8");
+        
+//        for (Map.Entry<String, Charset> entry : Charset.availableCharsets().entrySet()) {
+//            try {
+//                System.out.printf("%10s: %s\n", entry.getKey(), new String(urlFilename.getBytes(entry.getValue()), "utf-8"));
+//            } catch (Exception ex) {
+//                ; // NOOP
+//            }
+//        }
+                
+        this.fileName = URLDecoder.decode(new File(urlFilename).getName(), "utf-8");
 
         int isLoadFile = 1;
 

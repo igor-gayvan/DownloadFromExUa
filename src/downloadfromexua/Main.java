@@ -18,10 +18,11 @@ import java.util.logging.Logger;
  *
  * @author Igor Gayvan
  */
-public class DownloadFromExUa {
+public class Main {
 
     /**
      * @param args the command line arguments
+     * @throws java.net.MalformedURLException
      */
     public static void main(String[] args) throws MalformedURLException {
         Console console = new Console(System.in);
@@ -38,7 +39,7 @@ public class DownloadFromExUa {
                 try {
                     DownloadFile.getFiles(new URL(console.getInputText()));
                 } catch (IOException ex) {
-                    Logger.getLogger(DownloadFromExUa.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
