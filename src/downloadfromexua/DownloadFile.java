@@ -6,6 +6,7 @@
 package downloadfromexua;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -140,7 +141,7 @@ public class DownloadFile {
             BufferedInputStream fileIS =  new BufferedInputStream(conn.getInputStream());
 
             // write the inputStream to a FileOutputStream
-            OutputStream outputStream = new FileOutputStream(new File(ds.PATH_DOWNLOAD + "/" + fileName));
+            BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(new File(ds.PATH_DOWNLOAD + "/" + fileName)));
 
             int read = 0;
             byte[] bytes = new byte[1024];
