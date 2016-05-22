@@ -136,7 +136,8 @@ public class DownloadFile {
 
             System.out.printf("Downloading: (%s) %s [%.1fMB]\n", mime, fileName, Float.valueOf(fileSize / Utils.COUNT_BYTES_IN_MEGABYTE));
 
-            InputStream fileIS = conn.getInputStream();
+//            InputStream fileIS = conn.getInputStream();
+            BufferedInputStream fileIS =  new BufferedInputStream(conn.getInputStream());
 
             // write the inputStream to a FileOutputStream
             OutputStream outputStream = new FileOutputStream(new File(ds.PATH_DOWNLOAD + "/" + fileName));
