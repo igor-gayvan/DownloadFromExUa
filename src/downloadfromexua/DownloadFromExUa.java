@@ -36,7 +36,7 @@ public class DownloadFromExUa {
             @Override
             public void getUrl4DownloadAction() {
                 try {
-                    DownloadFile.getFile(new URL(console.getInputText()));
+                    DownloadFile.getFiles(new URL(console.getInputText()));
                 } catch (IOException ex) {
                     Logger.getLogger(DownloadFromExUa.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -49,6 +49,5 @@ public class DownloadFromExUa {
         });
 
         console.working();
-
     }
 }
