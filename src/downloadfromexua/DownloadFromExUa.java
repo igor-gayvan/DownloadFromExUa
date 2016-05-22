@@ -19,37 +19,36 @@ import java.util.logging.Logger;
  * @author Igor Gayvan
  */
 public class DownloadFromExUa {
-    Console console = new Console(System.in);
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws MalformedURLException {
-        URL playlistUrl = new URL("http://www.ex.ua/playlist/17427869.m3u");
-        List<URL> fileList = new ArrayList<>();
+        Console console = new Console(System.in);
 
-        List<DownloadFile> downloadFileList = new ArrayList<>();
-
-        DataSource ds = new DataSource(downloadFileList);
-        ShowData.ShowListAlreadyDownloadFiles(downloadFileList);
-
-        try (Scanner scanner = new Scanner(playlistUrl.openStream())) {
-            while (scanner.hasNextLine()) {
-                URL fileUrl = new URL(scanner.nextLine());
-                fileList.add(fileUrl);
+        console.addActionListener(new ActionListener() {
+            // Выход
+            @Override
+            public void exitAction() {
+                System.exit(0);
             }
 
-            for (URL fileDownloadURL : fileList) {
-                System.out.printf("%s%n", fileDownloadURL);
-
-                DownloadFile df = new DownloadFile(fileDownloadURL);
-                df.loadFile(ds, downloadFileList);
-
+            @Override
+            public void getUrl4DownloadAction() {
+                try {
+                    DownloadFile.getFile(new URL(console.getInputText()));
+                } catch (IOException ex) {
+                    Logger.getLogger(DownloadFromExUa.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
-        } catch (IOException ex) {
-            Logger.getLogger(DownloadFromExUa.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            @Override
+            public void confirmReplaceFiletAction() {
+                System.exit(0);
+            }
+        });
+
+        console.working();
+
     }
-
 }

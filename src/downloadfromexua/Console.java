@@ -20,7 +20,7 @@ public class Console {
 
     private List<ActionListener> actionListeners;
 
-    private String modeWorking = "CONFIRM_REPLACE_FILE";
+    private String modeWorking = "GET_URL_4_DOWNLOAD";
 
     private String inputText;
 
@@ -61,6 +61,22 @@ public class Console {
             inputText = scanner.nextLine().trim();
 
             switch (modeWorking) {
+                case "GET_URL_4_DOWNLOAD":
+                    switch (inputText) {
+                        case "": {
+                            for (ActionListener actionListener : actionListeners) {
+                                actionListener.exitAction();
+                            }
+                            break;
+                        }
+                        default: {
+                            for (ActionListener actionListener : actionListeners) {
+                                actionListener.getUrl4DownloadAction();
+                            }
+                            break;
+
+                        }
+                    }
                 case "CONFIRM_REPLACE_FILE":
                     switch (inputText.toLowerCase().trim()) {
                         case "yes":

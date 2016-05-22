@@ -13,4 +13,7 @@ public interface ActionListener {
 
     public void confirmReplaceFiletAction();
 
+    public void getUrl4DownloadAction();
+
+    public void exitAction();
 }

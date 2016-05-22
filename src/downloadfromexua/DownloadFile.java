@@ -14,7 +14,9 @@ import static java.lang.Math.round;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -67,6 +69,14 @@ public class DownloadFile {
 
         String mime = conn.getContentType();
         this.fileName = URLDecoder.decode(new File(conn.getURL().getFile()).getName(), "utf-8");
+        // проверяем наличие файла среди уже загруженных
+        for (DownloadFile dfl : downloadFileList) {
+            if (fileName.equals(dfl.fileName)) {
+                System.err.printf("Файл %s уже загружен%n", fileName);
+                break;
+            }
+        }
+
         this.fileSize = conn.getContentLengthLong();
 
         System.out.printf("Downloading: (%s) %s [%.1fMB]\n", mime, fileName, Float.valueOf(fileSize / Utils.COUNT_BYTES_IN_MEGABYTE));
@@ -99,5 +109,30 @@ public class DownloadFile {
         System.out.println("\nDownloaded");
 
         downloadFileList.add(this);
+    }
+
+    public static void getFile(URL playlistUrl) throws IOException {
+//        URL playlistUrl = new URL("http://www.ex.ua/playlist/17427869.m3u");
+        List<URL> fileList = new ArrayList<>();
+
+        List<DownloadFile> downloadFileList = new ArrayList<>();
+
+        DataSource ds = new DataSource(downloadFileList);
+        ShowData.ShowListAlreadyDownloadFiles(downloadFileList);
+
+        try (Scanner scanner = new Scanner(playlistUrl.openStream())) {
+            while (scanner.hasNextLine()) {
+                URL fileUrl = new URL(scanner.nextLine());
+                fileList.add(fileUrl);
+            }
+
+            for (URL fileDownloadURL : fileList) {
+                System.out.printf("%s%n", fileDownloadURL);
+
+                DownloadFile df = new DownloadFile(fileDownloadURL);
+                df.loadFile(ds, downloadFileList);
+            }
+
+        }
     }
 }
