@@ -15,13 +15,12 @@ import java.util.Scanner;
  * @author Igor Gayvan
  */
 public class Console {
- private Scanner scanner;
+
+    private Scanner scanner;
 
     private List<ActionListener> actionListeners;
-    private List<ShowDataListener> showDataListeners;
-    private List<SortActionListener> sortActionListeners;
 
-    private String modeWorking = "CHOICE_MODE";
+    private String modeWorking = "CONFIRM_REPLACE_FILE";
 
     private String inputText;
 
@@ -29,22 +28,11 @@ public class Console {
         this.scanner = new Scanner(inputStream);
 
         this.actionListeners = new ArrayList<>();
-        this.showDataListeners = new ArrayList<>();
-        this.sortActionListeners = new ArrayList<>();
     }
 
     public void addActionListener(ActionListener actionListener) {
         actionListeners.add(actionListener);
     }
-
-    public void addSortActionListener(SortActionListener sortActionListener) {
-        sortActionListeners.add(sortActionListener);
-    }
-
-    public void addShowDataListener(ShowDataListener showDataListener) {
-        showDataListeners.add(showDataListener);
-    }
-    
 
     public String getInputText() {
         return inputText.trim();
@@ -60,8 +48,7 @@ public class Console {
 
     /**
      *
-     * @param modeWorking ADD_CONTACT - добавление, CHOICE_MODE - главное меню,
-     * SHOW_CONTACT - отображение данных о контакте
+     * @param modeWorking CONFIRM_REPLACE_FILE - подтверждение перезаписи файла
      *
      */
     public void setModeWorking(String modeWorking) {
@@ -70,85 +57,21 @@ public class Console {
 
     public void working() {
         while (true) {
-            if (modeWorking == "CHOICE_MODE") {
-                System.out.println("1 - show list of contacts");
-                System.out.println("2 - add new contact");
-                System.out.println("3 - show information about contact");
-                System.out.println("5 - refresh");
-                System.out.println("7 - sort by phone");
-                System.out.println("8 - sort by any field");
-                System.out.println("0 - exit");
-                System.out.print("Your choice? ");
-            }
 
             inputText = scanner.nextLine().trim();
 
             switch (modeWorking) {
-                case "SHOW_CONTACT": {
-                    for (ShowDataListener addressBookListeners : showDataListeners) {
-                        addressBookListeners.showContactAction();
-                    }
-                    break;
-                }
-                case "ADD_CONTACT": {
-                    for (ActionListener actionListeners : actionListeners) {
-                        actionListeners.addContactAction();
-                    }
-                    break;
-                }
-                case "SORT_BY_ANY_FIELD": {
-                    for (SortActionListener sortActionListener : sortActionListeners) {
-                        sortActionListener.sortByAnyField();
-                    }
-                    break;
-                }
-                case "CHOICE_MODE":
+                case "CONFIRM_REPLACE_FILE":
                     switch (inputText.toLowerCase().trim()) {
-                        case "0":
+                        case "yes":
                             for (ActionListener actionListener : actionListeners) {
-                                actionListener.exitAction();
-                            }
-                            break;
-                        case "1":
-                            for (ShowDataListener showDataListener : showDataListeners) {
-                                showDataListener.showListContactsAction();
-                            }
-                            break;
-                        case "2":
-                            setModeWorking("ADD_CONTACT");
-                            for (ShowDataListener showDataListener : showDataListeners) {
-                                showDataListener.showPromptInputContactAction();
-                            }
-                            break;
-                        case "3":
-                            setModeWorking("SHOW_CONTACT");
-                            for (ShowDataListener showDataListener : showDataListeners) {
-                                showDataListener.showPromptInputContactIdAction();
-                            }
-                            break;
-                        case "5":
-                            setModeWorking("REFRESH");
-                            for (ActionListener actionListener : actionListeners) {
-                                actionListener.refreshDataAction();
-                            }
-                            break;
-                        case "7":
-                            setModeWorking("SORT_BY_PHONE");
-                            for (SortActionListener sortActionListener : sortActionListeners) {
-                                sortActionListener.sortByPhoneAction();
-                            }
-                            break;
-                        case "8":
-                            setModeWorking("SORT_BY_ANY_FIELD");
-                            for (SortActionListener sortActionListener : sortActionListeners) {
-                                sortActionListener.sortByAnyFieldAction();
+                                actionListener.confirmReplaceFiletAction();
                             }
                             break;
 
-                        default:
-                            System.out.println("Make your choice");
                     }
 
             }
-        }   
+        }
+    }
 }

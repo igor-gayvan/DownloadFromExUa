@@ -5,17 +5,9 @@
  */
 package downloadfromexua;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import static java.lang.Math.ceil;
-import static java.lang.Math.round;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -27,6 +19,7 @@ import java.util.logging.Logger;
  * @author Igor Gayvan
  */
 public class DownloadFromExUa {
+    Console console = new Console(System.in);
 
     /**
      * @param args the command line arguments
@@ -50,9 +43,8 @@ public class DownloadFromExUa {
                 System.out.printf("%s%n", fileDownloadURL);
 
                 DownloadFile df = new DownloadFile(fileDownloadURL);
-                df.loadFile(ds,downloadFileList);
+                df.loadFile(ds, downloadFileList);
 
-                downloadFileList.add(df);
             }
 
         } catch (IOException ex) {
