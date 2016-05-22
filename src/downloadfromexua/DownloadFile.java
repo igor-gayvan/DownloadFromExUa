@@ -149,7 +149,7 @@ public class DownloadFile {
                 cntByteCurFile = cntByteCurFile + read;
                 int curProgress = (int) round(cntByteCurFile / fileSize * 100);
                 if (prevProgress != curProgress) {
-                    String strPad = Utils.padl("", curProgress + 1, '=');
+                    String strPad = Utils.padr("", curProgress + 1, '=');
 
                     System.out.printf("\r[%-100s]", strPad);
                 }
