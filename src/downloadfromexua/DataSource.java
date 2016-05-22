@@ -37,7 +37,7 @@ public class DataSource {
             }
         }
 
-        System.out.printf("Download folder's size : [%.1fMB]%n", Float.valueOf(sizeDownloadFolder / DownloadFromExUa.COUNT_BYTES_IN_MEGABYTE));
+        System.out.printf("Download folder's size : [%.1fMB]%n", Float.valueOf(sizeDownloadFolder / Utils.COUNT_BYTES_IN_MEGABYTE));
     }
 
 }

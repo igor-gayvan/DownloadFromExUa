@@ -10,6 +10,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import static java.lang.Math.ceil;
+import static java.lang.Math.round;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -25,8 +27,6 @@ import java.util.logging.Logger;
  * @author Igor Gayvan
  */
 public class DownloadFromExUa {
-
-    public static final long COUNT_BYTES_IN_MEGABYTE = 1024 * 1024;
 
     /**
      * @param args the command line arguments
@@ -46,32 +46,13 @@ public class DownloadFromExUa {
                 fileList.add(fileUrl);
             }
 
-            for (URL fileListURL : fileList) {
-                System.out.printf("%s%n", fileListURL);
+            for (URL fileDownloadURL : fileList) {
+                System.out.printf("%s%n", fileDownloadURL);
 
-                URLConnection conn = fileListURL.openConnection();
+                DownloadFile df = new DownloadFile(fileDownloadURL);
+                df.loadFile(ds,downloadFileList);
 
-                String mime = conn.getContentType();
-                String nameFile = URLDecoder.decode(new File(conn.getURL().getFile()).getName(), "utf-8");
-
-                System.out.printf("Downloading: (%s) %s [%.1fMB]\n", mime, nameFile, Float.valueOf(conn.getContentLengthLong() / COUNT_BYTES_IN_MEGABYTE));
-
-                InputStream fileIS = conn.getInputStream();
-
-                // write the inputStream to a FileOutputStream
-                OutputStream outputStream = new FileOutputStream(new File(ds.PATH_DOWNLOAD + "/" + nameFile));
-
-                int read = 0;
-                byte[] bytes = new byte[1024];
-
-                while ((read = fileIS.read(bytes)) != -1) {
-                    outputStream.write(bytes, 0, read);
-                }
-
-                fileIS.close();
-                outputStream.close();
-
-                System.out.println("Downloaded");
+                downloadFileList.add(df);
             }
 
         } catch (IOException ex) {
