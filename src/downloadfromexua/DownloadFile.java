@@ -88,9 +88,8 @@ public class DownloadFile {
         URLConnection conn = fileURL.openConnection();
 
         String mime = conn.getContentType();
-        String urlFilename = new String(conn.getURL().getFile().getBytes("ISO-8859-1"), "utf-8");
-        
-        this.fileName = URLDecoder.decode(new File(conn.getURL().getFile()).getName(), "utf-8");
+        String urlFilename = new String(conn.getURL().getFile().getBytes("ISO-8859-1"), "utf-8");        
+        this.fileName = URLDecoder.decode(new File(urlFilename).getName(), "utf-8");
 
         int isLoadFile = 1;
 
@@ -137,7 +136,7 @@ public class DownloadFile {
 
             System.out.printf("Downloading: (%s) %s [%.1fMB]\n", mime, fileName, Float.valueOf(fileSize / Utils.COUNT_BYTES_IN_MEGABYTE));
 
-            BufferedInputStream fileIS = (BufferedInputStream) conn.getInputStream();
+            InputStream fileIS = conn.getInputStream();
 
             // write the inputStream to a FileOutputStream
             OutputStream outputStream = new FileOutputStream(new File(ds.PATH_DOWNLOAD + "/" + fileName));
